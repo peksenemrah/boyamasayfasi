@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!sayfa) return {}
   return {
     title: `${sayfa.baslik} Boyama Sayfası`,
-    description: sayfa.aciklama.slice(0, 155),
+    description: sayfa.aciklama?.slice(0, 155) ?? '',
   }
 }
 
@@ -77,11 +77,13 @@ export default async function BoyamaSayfasi({ params }: Props) {
         </Link>
       </div>
 
-      <p className="text-gray-600 mb-6 leading-relaxed">{sayfa.aciklama}</p>
+      {sayfa.aciklama && (
+        <p className="text-gray-600 mb-6 leading-relaxed">{sayfa.aciklama}</p>
+      )}
 
       {sayfa.dosyaTipi === 'raster' && sayfa.gorselUrl
         ? <ColoringEngineRaster imgSrc={sayfa.gorselUrl} baslik={sayfa.baslik} />
-        : <ColoringEngine svgDosya={sayfa.svgDosya} baslik={sayfa.baslik} />
+        : <ColoringEngine svgDosya={sayfa.svgDosya ?? ''} baslik={sayfa.baslik} />
       }
 
       {ilgili.length > 0 && (
