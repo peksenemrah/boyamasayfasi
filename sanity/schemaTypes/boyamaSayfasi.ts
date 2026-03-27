@@ -67,11 +67,34 @@ export const boyamaSayfasiType = defineType({
       rows: 4,
     }),
     defineField({
+      name: 'dosyaTipi',
+      title: 'Dosya Tipi',
+      type: 'string',
+      options: {
+        list: [
+          { title: '🎨 SVG (interaktif bölge boyama)', value: 'svg' },
+          { title: '🖼️ JPG / PNG (flood-fill boyama)', value: 'raster' },
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'svg',
+      validation: Rule => Rule.required(),
+    }),
+    defineField({
       name: 'svgDosya',
       title: 'SVG Dosyası',
+      description: 'Dosya tipi SVG seçiliyse doldurun',
       type: 'file',
       options: { accept: '.svg,image/svg+xml' },
-      validation: Rule => Rule.required(),
+      hidden: ({ document }) => document?.dosyaTipi !== 'svg',
+    }),
+    defineField({
+      name: 'gorsel',
+      title: 'JPG / PNG Görseli',
+      description: 'Dosya tipi JPG/PNG seçiliyse doldurun',
+      type: 'image',
+      options: { hotspot: true },
+      hidden: ({ document }) => document?.dosyaTipi !== 'raster',
     }),
   ],
   preview: {

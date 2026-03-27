@@ -1,5 +1,5 @@
 export interface ColoringPage {
-  id: number
+  id: number | string
   slug: string
   baslik: string
   kategori: string
@@ -9,6 +9,8 @@ export interface ColoringPage {
   populerlik: number
   aciklama: string
   svgDosya: string
+  dosyaTipi?: 'svg' | 'raster'
+  gorselUrl?: string
 }
 
 export const boyamaSayfalari: ColoringPage[] = [

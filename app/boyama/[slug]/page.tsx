@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import type { Metadata } from 'next'
 import ColoringEngine from '@/components/ColoringEngine'
+import ColoringEngineRaster from '@/components/ColoringEngineRaster'
 import ColoringCard from '@/components/ColoringCard'
 import { kategoriler } from '@/data/categories'
 import {
@@ -78,7 +79,10 @@ export default async function BoyamaSayfasi({ params }: Props) {
 
       <p className="text-gray-600 mb-6 leading-relaxed">{sayfa.aciklama}</p>
 
-      <ColoringEngine svgDosya={sayfa.svgDosya} baslik={sayfa.baslik} />
+      {sayfa.dosyaTipi === 'raster' && sayfa.gorselUrl
+        ? <ColoringEngineRaster imgSrc={sayfa.gorselUrl} baslik={sayfa.baslik} />
+        : <ColoringEngine svgDosya={sayfa.svgDosya} baslik={sayfa.baslik} />
+      }
 
       {ilgili.length > 0 && (
         <section className="mt-10">

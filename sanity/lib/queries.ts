@@ -9,7 +9,9 @@ export const SAYFALAR_QUERY = `
     yeni,
     populerlik,
     aciklama,
-    "svgDosya": svgDosya.asset->url
+    "dosyaTipi": coalesce(dosyaTipi, "svg"),
+    "svgDosya": svgDosya.asset->url,
+    "gorselUrl": gorsel.asset->url
   }
 `
 
@@ -24,7 +26,9 @@ export const SAYFA_SLUG_QUERY = `
     yeni,
     populerlik,
     aciklama,
-    "svgDosya": svgDosya.asset->url
+    "dosyaTipi": coalesce(dosyaTipi, "svg"),
+    "svgDosya": svgDosya.asset->url,
+    "gorselUrl": gorsel.asset->url
   }
 `
 
