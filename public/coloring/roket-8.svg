@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <style>
+    [data-region] { cursor: pointer; transition: opacity 0.1s; }
+    [data-region]:hover { opacity: 0.8; }
+  </style>
+
+  <!-- Rocket body -->
+  <path data-region="1" d="M155,130 L155,310 Q155,325 170,325 L230,325 Q245,325 245,310 L245,130 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Nose cone -->
+  <path data-region="2" d="M155,130 Q155,70 200,40 Q245,70 245,130 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Left fin -->
+  <path data-region="3" d="M155,280 Q130,295 115,340 Q130,345 155,325 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Right fin -->
+  <path data-region="4" d="M245,280 Q270,295 285,340 Q270,345 245,325 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Porthole / window -->
+  <circle data-region="5" cx="200" cy="175" r="30" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Window inner ring -->
+  <circle data-region="6" cx="200" cy="175" r="18" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Rocket stripe / middle band -->
+  <rect data-region="7" x="155" y="240" width="90" height="22" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Flame left -->
+  <path data-region="8" d="M173,325 Q163,355 155,385 Q175,365 185,375 Q195,355 200,375 Q205,355 215,375 Q225,365 245,385 Q237,355 227,325 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- Flame inner -->
+  <path data-region="9" d="M183,325 Q178,348 183,360 Q192,345 200,358 Q208,345 217,360 Q222,348 217,325 Z" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+</svg>

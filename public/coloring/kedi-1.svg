@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <style>
+    [data-region] { cursor: pointer; transition: opacity 0.1s; }
+    [data-region]:hover { opacity: 0.8; }
+  </style>
+
+  <!-- Body -->
+  <ellipse data-region="1" cx="200" cy="310" rx="90" ry="75" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Head -->
+  <ellipse data-region="2" cx="200" cy="185" rx="100" ry="90" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Left ear (outer) -->
+  <polygon data-region="3" points="120,130 100,65 155,105" fill="white" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- Left ear (inner) -->
+  <polygon data-region="4" points="120,122 107,80 148,110" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Right ear (outer) -->
+  <polygon data-region="5" points="280,130 300,65 245,105" fill="white" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- Right ear (inner) -->
+  <polygon data-region="6" points="280,122 293,80 252,110" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Left eye -->
+  <ellipse data-region="7" cx="165" cy="175" rx="22" ry="18" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Left pupil -->
+  <ellipse data-region="8" cx="165" cy="175" rx="10" ry="14" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Right eye -->
+  <ellipse data-region="9" cx="235" cy="175" rx="22" ry="18" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Right pupil -->
+  <ellipse data-region="10" cx="235" cy="175" rx="10" ry="14" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Nose -->
+  <polygon data-region="11" points="200,205 190,218 210,218" fill="white" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- Mouth area -->
+  <path data-region="12" d="M190,218 Q180,235 170,230 Q185,250 200,240 Q215,250 230,230 Q220,235 210,218 Z" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Left whiskers group (as a region) -->
+  <g data-region="13" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round">
+    <line x1="185" y1="215" x2="120" y2="205"/>
+    <line x1="185" y1="220" x2="120" y2="220"/>
+    <line x1="185" y1="225" x2="120" y2="235"/>
+  </g>
+
+  <!-- Right whiskers group (as a region) -->
+  <g data-region="14" fill="none" stroke="#1a1a1a" stroke-width="1.8" stroke-linecap="round">
+    <line x1="215" y1="215" x2="280" y2="205"/>
+    <line x1="215" y1="220" x2="280" y2="220"/>
+    <line x1="215" y1="225" x2="280" y2="235"/>
+  </g>
+
+  <!-- Tail -->
+  <path data-region="15" d="M285,310 Q340,260 355,200 Q370,155 340,150 Q320,148 325,175 Q330,195 315,240 Q300,280 280,330 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Chest patch -->
+  <ellipse data-region="16" cx="200" cy="300" rx="45" ry="35" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+</svg>

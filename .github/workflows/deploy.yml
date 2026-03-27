@@ -1,0 +1,26 @@
+name: Deploy boyamasayfasi.com
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Bağımlılıkları yükle
+        run: npm install
+
+      - name: Build kontrol
+        run: npm run build
+
+      - name: Build başarılı
+        run: echo "✅ Build başarılı! Vercel otomatik deploy edecek."

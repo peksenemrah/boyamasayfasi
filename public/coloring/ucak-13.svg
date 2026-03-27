@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <style>
+    [data-region] { cursor: pointer; transition: opacity 0.1s; }
+    [data-region]:hover { opacity: 0.8; }
+  </style>
+
+  <!-- Fuselage (main body) -->
+  <path data-region="1" d="M60,185 Q60,165 90,160 L310,160 Q360,162 370,185 Q360,210 310,215 L90,215 Q60,210 60,185 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Nose cone -->
+  <path data-region="2" d="M310,215 Q360,213 370,185 Q380,175 395,185 Q395,195 370,210 Q355,220 310,215 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Left main wing -->
+  <path data-region="3" d="M180,215 Q175,240 120,290 Q95,312 75,305 Q80,280 110,258 Q140,238 165,215 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Right main wing (top) -->
+  <path data-region="4" d="M200,160 Q195,135 140,85 Q115,63 95,70 Q100,95 130,117 Q158,138 180,160 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Tail vertical fin -->
+  <path data-region="5" d="M80,160 Q78,130 92,105 Q105,85 118,100 Q115,125 108,160 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Tail horizontal stabilizer left -->
+  <path data-region="6" d="M90,215 Q88,228 65,248 Q50,258 40,252 Q45,238 62,226 Q75,218 85,215 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Tail horizontal stabilizer right (top) -->
+  <path data-region="7" d="M95,160 Q93,147 70,127 Q55,117 45,123 Q50,137 67,149 Q80,157 90,160 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Window 1 -->
+  <ellipse data-region="8" cx="305" cy="185" rx="16" ry="13" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Window 2 -->
+  <ellipse data-region="9" cx="268" cy="185" rx="16" ry="13" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Window 3 -->
+  <ellipse data-region="10" cx="231" cy="185" rx="16" ry="13" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Engine pod on left wing -->
+  <path data-region="11" d="M145,232 Q138,238 135,250 Q140,258 165,255 Q180,252 178,242 Q175,232 162,228 Z" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Engine pod on right wing (top side) -->
+  <path data-region="12" d="M150,142 Q143,136 140,125 Q145,117 170,120 Q185,122 183,132 Q180,142 167,146 Z" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+</svg>

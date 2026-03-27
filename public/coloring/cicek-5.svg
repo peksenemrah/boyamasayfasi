@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <style>
+    [data-region] { cursor: pointer; transition: opacity 0.1s; }
+    [data-region]:hover { opacity: 0.8; }
+  </style>
+
+  <!-- Stem -->
+  <path data-region="1" d="M192,270 Q188,320 190,380 L210,380 Q212,320 208,270 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Left leaf -->
+  <path data-region="2" d="M195,320 Q165,300 145,315 Q155,340 190,335 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Right leaf -->
+  <path data-region="3" d="M205,330 Q235,308 255,320 Q248,345 210,342 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Petal 1 (top) -->
+  <ellipse data-region="4" cx="200" cy="145" rx="28" ry="48" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Petal 2 (top-right) -->
+  <ellipse data-region="5" cx="244" cy="160" rx="28" ry="48" fill="white" stroke="#1a1a1a" stroke-width="2.5" transform="rotate(52,244,160)"/>
+
+  <!-- Petal 3 (right) -->
+  <ellipse data-region="6" cx="258" cy="200" rx="28" ry="48" fill="white" stroke="#1a1a1a" stroke-width="2.5" transform="rotate(90,258,200)"/>
+
+  <!-- Petal 4 (bottom-right) -->
+  <ellipse data-region="7" cx="244" cy="242" rx="28" ry="48" fill="white" stroke="#1a1a1a" stroke-width="2.5" transform="rotate(128,244,242)"/>
+
+  <!-- Petal 5 (bottom) -->
+  <ellipse data-region="8" cx="200" cy="258" rx="28" ry="48" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Petal 6 (bottom-left) -->
+  <ellipse data-region="9" cx="156" cy="242" rx="28" ry="48" fill="white" stroke="#1a1a1a" stroke-width="2.5" transform="rotate(52,156,242)"/>
+
+  <!-- Petal 7 (left) -->
+  <ellipse data-region="10" cx="142" cy="200" rx="28" ry="48" fill="white" stroke="#1a1a1a" stroke-width="2.5" transform="rotate(90,142,200)"/>
+
+  <!-- Petal 8 (top-left) -->
+  <ellipse data-region="11" cx="156" cy="160" rx="28" ry="48" fill="white" stroke="#1a1a1a" stroke-width="2.5" transform="rotate(128,156,160)"/>
+
+  <!-- Flower center -->
+  <circle data-region="12" cx="200" cy="200" r="42" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Center detail ring -->
+  <circle data-region="13" cx="200" cy="200" r="25" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+</svg>

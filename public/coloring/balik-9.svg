@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <style>
+    [data-region] { cursor: pointer; transition: opacity 0.1s; }
+    [data-region]:hover { opacity: 0.8; }
+  </style>
+
+  <!-- Fish body -->
+  <ellipse data-region="1" cx="185" cy="210" rx="130" ry="85" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Tail fin -->
+  <path data-region="2" d="M315,210 Q360,165 385,140 Q380,200 385,210 Q380,220 385,260 Q360,250 315,210 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Top dorsal fin -->
+  <path data-region="3" d="M155,128 Q175,90 205,82 Q230,78 250,95 Q235,110 220,125 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Bottom pectoral fin -->
+  <path data-region="4" d="M170,288 Q155,310 140,330 Q165,322 190,310 Q200,298 195,285 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Eye -->
+  <circle data-region="5" cx="100" cy="195" r="22" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Pupil -->
+  <circle data-region="6" cx="100" cy="195" r="11" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Scales area upper -->
+  <path data-region="7" d="M130,160 Q175,148 220,152 Q260,158 290,175 Q255,165 215,168 Q175,172 138,185 Z" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
+
+  <!-- Scales row 2 -->
+  <path data-region="8" d="M125,190 Q170,178 218,182 Q258,186 292,200 Q256,192 216,196 Q172,200 128,214 Z" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
+
+  <!-- Scales row 3 -->
+  <path data-region="9" d="M132,220 Q178,210 224,214 Q262,218 294,232 Q260,226 220,228 Q178,232 135,244 Z" fill="white" stroke="#1a1a1a" stroke-width="1.8"/>
+
+  <!-- Mouth -->
+  <path data-region="10" d="M58,210 Q55,220 62,228 Q72,235 82,228 Q75,218 72,210 Z" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+</svg>

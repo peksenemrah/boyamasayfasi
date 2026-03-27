@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <style>
+    [data-region] { cursor: pointer; transition: opacity 0.1s; }
+    [data-region]:hover { opacity: 0.8; }
+  </style>
+
+  <!-- Top-left wing (main) -->
+  <path data-region="1" d="M195,185 Q160,130 90,110 Q40,95 35,150 Q30,200 80,220 Q130,240 190,215 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Top-left wing inner circle decoration -->
+  <ellipse data-region="2" cx="105" cy="165" rx="35" ry="28" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Top-left wing spot -->
+  <ellipse data-region="3" cx="75" cy="155" rx="16" ry="13" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Top-right wing (main) -->
+  <path data-region="4" d="M205,185 Q240,130 310,110 Q360,95 365,150 Q370,200 320,220 Q270,240 210,215 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Top-right wing inner circle decoration -->
+  <ellipse data-region="5" cx="295" cy="165" rx="35" ry="28" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Top-right wing spot -->
+  <ellipse data-region="6" cx="325" cy="155" rx="16" ry="13" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Bottom-left wing -->
+  <path data-region="7" d="M192,215 Q150,240 100,265 Q55,285 65,325 Q80,360 130,350 Q175,340 195,295 Q200,260 197,225 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Bottom-left wing spot -->
+  <ellipse data-region="8" cx="118" cy="308" rx="22" ry="18" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Bottom-right wing -->
+  <path data-region="9" d="M208,215 Q250,240 300,265 Q345,285 335,325 Q320,360 270,350 Q225,340 205,295 Q200,260 203,225 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Bottom-right wing spot -->
+  <ellipse data-region="10" cx="282" cy="308" rx="22" ry="18" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Body -->
+  <ellipse data-region="11" cx="200" cy="220" rx="12" ry="65" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Head -->
+  <circle data-region="12" cx="200" cy="148" r="16" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Left antenna -->
+  <path data-region="13" d="M194,134 Q180,110 168,95" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="165" cy="92" r="5" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Right antenna -->
+  <path data-region="14" d="M206,134 Q220,110 232,95" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="235" cy="92" r="5" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+</svg>

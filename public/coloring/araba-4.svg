@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400">
+  <style>
+    [data-region] { cursor: pointer; transition: opacity 0.1s; }
+    [data-region]:hover { opacity: 0.8; }
+  </style>
+
+  <!-- Car body (main lower) -->
+  <path data-region="1" d="M40,255 Q40,230 60,225 L340,225 Q360,230 360,255 L360,305 Q360,320 340,320 L60,320 Q40,320 40,305 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Car cabin / roof -->
+  <path data-region="2" d="M100,225 Q115,170 145,160 L255,160 Q285,170 300,225 Z" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+
+  <!-- Left window -->
+  <path data-region="3" d="M115,222 Q122,178 145,168 L192,168 L192,222 Z" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Right window -->
+  <path data-region="4" d="M285,222 Q278,178 255,168 L208,168 L208,222 Z" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Front wheel -->
+  <circle data-region="5" cx="300" cy="320" r="38" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+  <circle data-region="6" cx="300" cy="320" r="20" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Rear wheel -->
+  <circle data-region="7" cx="105" cy="320" r="38" fill="white" stroke="#1a1a1a" stroke-width="2.5"/>
+  <circle data-region="8" cx="105" cy="320" r="20" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Front headlight -->
+  <rect data-region="9" x="335" y="248" width="30" height="18" rx="4" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Rear light -->
+  <rect data-region="10" x="35" y="248" width="28" height="18" rx="4" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+  <!-- Racing stripe -->
+  <rect data-region="11" x="60" y="262" width="280" height="14" rx="3" fill="white" stroke="#1a1a1a" stroke-width="1.5"/>
+
+  <!-- Side exhaust / spoiler detail -->
+  <path data-region="12" d="M350,265 L385,258 L385,278 L350,280 Z" fill="white" stroke="#1a1a1a" stroke-width="2"/>
+
+</svg>
