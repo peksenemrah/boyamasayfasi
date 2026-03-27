@@ -24,6 +24,14 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
   const [svgIcerik, setSvgIcerik] = useState<string>('')
   const containerRef = useRef<HTMLDivElement>(null)
 
+  // Ref'ler ile stale closure sorununu çöz
+  const renklerRef = useRef<RenkMap>({})
+  const seciliRenkRef = useRef(PALET[0])
+
+  // State değiştiğinde ref'leri güncelle
+  useEffect(() => { renklerRef.current = renkler }, [renkler])
+  useEffect(() => { seciliRenkRef.current = seciliRenk }, [seciliRenk])
+
   // SVG dosyasını yükle
   useEffect(() => {
     fetch(`/coloring/${svgDosya}`)
@@ -32,21 +40,9 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
       .catch(() => setSvgIcerik(''))
   }, [svgDosya])
 
-  // SVG üzerindeki renkleri uygula
+  // Tıklama olayı — sadece svgIcerik değişince yeniden kaydedilir
   useEffect(() => {
     if (!containerRef.current || !svgIcerik) return
-    const svg = containerRef.current.querySelector('svg')
-    if (!svg) return
-
-    Object.entries(renkler).forEach(([regionId, renk]) => {
-      const el = svg.querySelector(`[data-region="${regionId}"]`)
-      if (el) (el as SVGElement).style.fill = renk
-    })
-  }, [renkler, svgIcerik])
-
-  // Tıklama olayı
-  useEffect(() => {
-    if (!containerRef.current) return
     const container = containerRef.current
 
     const handleClick = (e: MouseEvent) => {
@@ -54,47 +50,70 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
       const region = target.getAttribute('data-region')
       if (!region) return
 
-      setGecmis(prev => [...prev.slice(-19), { ...renkler }])
-      setRenkler(prev => ({ ...prev, [region]: seciliRenk }))
+      const mevcutRenkler = renklerRef.current
+      const renk = seciliRenkRef.current
+      const yeniRenkler = { ...mevcutRenkler, [region]: renk }
+
+      setGecmis(prev => [...prev.slice(-19), mevcutRenkler])
+      setRenkler(yeniRenkler)
+      renklerRef.current = yeniRenkler
+
+      // Doğrudan DOM'u güncelle — useEffect beklemeden anlık görünür
+      const el = container.querySelector(`[data-region="${region}"]`) as SVGElement | null
+      if (el) el.setAttribute('fill', renk)
     }
 
     container.addEventListener('click', handleClick)
     return () => container.removeEventListener('click', handleClick)
-  }, [seciliRenk, renkler])
+  }, [svgIcerik])
 
   const geriAl = useCallback(() => {
     if (gecmis.length === 0) return
     const onceki = gecmis[gecmis.length - 1]
     setGecmis(prev => prev.slice(0, -1))
     setRenkler(onceki)
-    // SVG güncellemesi useEffect'te tetiklenecek
+    renklerRef.current = onceki
     if (containerRef.current) {
       const svg = containerRef.current.querySelector('svg')
       if (!svg) return
-      // Tüm region'ları sıfırla
       svg.querySelectorAll('[data-region]').forEach(el => {
         const id = el.getAttribute('data-region')!
-        ;(el as SVGElement).style.fill = onceki[id] || 'white'
+        ;(el as SVGElement).setAttribute('fill', onceki[id] || 'white')
       })
     }
   }, [gecmis])
 
   const sifirla = useCallback(() => {
     if (!confirm('Tüm renkler silinecek. Emin misin?')) return
-    setGecmis(prev => [...prev, { ...renkler }])
+    const mevcutRenkler = renklerRef.current
+    setGecmis(prev => [...prev, mevcutRenkler])
     setRenkler({})
+    renklerRef.current = {}
     if (containerRef.current) {
       const svg = containerRef.current.querySelector('svg')
       if (!svg) return
       svg.querySelectorAll('[data-region]').forEach(el => {
-        (el as SVGElement).style.fill = 'white'
+        (el as SVGElement).setAttribute('fill', 'white')
       })
     }
-  }, [renkler])
+  }, [])
 
   const yazdir = useCallback(() => {
-    window.print()
-  }, [])
+    const svg = containerRef.current?.querySelector('svg')
+    if (!svg) return
+    const win = window.open('', '_blank', 'width=700,height=700')
+    if (!win) return
+    win.document.write(`<!DOCTYPE html><html><head><title>${baslik}</title>
+      <style>
+        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: white; }
+        svg { max-width: 100%; max-height: 100vh; }
+        @media print { body { margin: 0; } }
+      </style></head>
+      <body>${svg.outerHTML}</body></html>`)
+    win.document.close()
+    win.focus()
+    setTimeout(() => { win.print(); win.close() }, 400)
+  }, [baslik])
 
   return (
     <div className="bg-white rounded-2xl shadow-lg p-4 no-print">
