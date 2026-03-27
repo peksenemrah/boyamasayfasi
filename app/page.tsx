@@ -1,3 +1,5 @@
+export const revalidate = 60
+
 import Link from 'next/link'
 import ColoringCard from '@/components/ColoringCard'
 import { sayiyaGoreBoyaSayfalari } from '@/data/colorByNumbers'
