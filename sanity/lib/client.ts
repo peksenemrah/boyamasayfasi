@@ -12,3 +12,12 @@ export const client = createClient({
 
 // Sanity yapılandırılmış mı?
 export const isSanityConfigured = !!projectId
+
+// Write işlemleri için (API routes'ta kullanılır)
+export const writeClient = createClient({
+  projectId,
+  dataset,
+  apiVersion: '2024-01-01',
+  useCdn: false,
+  token: process.env.SANITY_WRITE_TOKEN,
+})

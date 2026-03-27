@@ -1,4 +1,9 @@
 import { defineField, defineType } from 'sanity'
+import { kategoriler } from '../../data/categories'
+
+const kategoriListesi = kategoriler
+  .filter(k => k.grup !== 'ozel')
+  .map(k => ({ title: `${k.emoji} ${k.ad}`, value: k.slug }))
 
 export const boyamaSayfasiType = defineType({
   name: 'boyamaSayfasi',
@@ -22,7 +27,7 @@ export const boyamaSayfasiType = defineType({
       name: 'kategori',
       title: 'Kategori',
       type: 'string',
-      description: 'Örn: kediler, kopekler, arabalar, prenses...',
+      options: { list: kategoriListesi },
       validation: Rule => Rule.required(),
     }),
     defineField({
