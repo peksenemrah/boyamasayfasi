@@ -1,14 +1,14 @@
 import type { Metadata } from 'next'
 import ColoringCard from '@/components/ColoringCard'
-import { yeniSayfalar } from '@/data/coloringPages'
+import { getYeniSayfalar } from '@/lib/data'
 
 export const metadata: Metadata = {
   title: 'Yeni Boyama Sayfaları',
   description: 'Son eklenen ücretsiz boyama sayfaları. Online boyayın veya yazdırın!',
 }
 
-export default function YeniSayfalar() {
-  const sayfalar = yeniSayfalar(50)
+export default async function YeniSayfalar() {
+  const sayfalar = await getYeniSayfalar(50)
   return (
     <div>
       <h1 className="text-2xl font-black text-gray-800 mb-2">🆕 Yeni Boyama Sayfaları</h1>

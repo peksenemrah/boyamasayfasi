@@ -1,13 +1,15 @@
 import Link from 'next/link'
 import type { Metadata } from 'next'
-import { boyamaSayfalari } from '@/data/coloringPages'
 import { kategoriler } from '@/data/categories'
+import { getSayfalar } from '@/lib/data'
 
 export const metadata: Metadata = {
   title: 'Site Haritası',
 }
 
-export default function SiteHaritasi() {
+export default async function SiteHaritasi() {
+  const boyamaSayfalari = await getSayfalar()
+
   return (
     <div>
       <h1 className="text-2xl font-black text-gray-800 mb-6">🗺️ Site Haritası</h1>
@@ -40,9 +42,9 @@ export default function SiteHaritasi() {
             Tüm Boyama Sayfaları ({boyamaSayfalari.length})
           </h2>
           <ul className="space-y-1">
-            {boyamaSayfalari.map(s => (
+            {boyamaSayfalari.map((s, i) => (
               <li key={s.id} className="flex items-center gap-2">
-                <span className="text-gray-400 text-xs font-mono w-6">#{s.id}</span>
+                <span className="text-gray-400 text-xs font-mono w-6">#{i + 1}</span>
                 <Link href={`/boyama/${s.slug}`} className="text-purple-600 hover:underline text-sm">
                   {s.baslik}
                 </Link>

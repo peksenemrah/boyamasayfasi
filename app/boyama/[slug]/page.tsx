@@ -3,19 +3,25 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import ColoringEngine from '@/components/ColoringEngine'
 import ColoringCard from '@/components/ColoringCard'
-import { boyamaSayfalari, sayfaBulSlug, ilgiliSayfalar, yeniSayfalar } from '@/data/coloringPages'
 import { kategoriler } from '@/data/categories'
+import {
+  getSayfaBySlug,
+  getSlugListesi,
+  getIlgiliSayfalar,
+  getYeniSayfalar,
+} from '@/lib/data'
 
 interface Props {
   params: { slug: string }
 }
 
 export async function generateStaticParams() {
-  return boyamaSayfalari.map(s => ({ slug: s.slug }))
+  const slugler = await getSlugListesi()
+  return slugler
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const sayfa = sayfaBulSlug(params.slug)
+  const sayfa = await getSayfaBySlug(params.slug)
   if (!sayfa) return {}
   return {
     title: `${sayfa.baslik} Boyama Sayfası`,
@@ -23,12 +29,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function BoyamaSayfasi({ params }: Props) {
-  const sayfa = sayfaBulSlug(params.slug)
+export default async function BoyamaSayfasi({ params }: Props) {
+  const sayfa = await getSayfaBySlug(params.slug)
   if (!sayfa) notFound()
 
-  const ilgili = ilgiliSayfalar(sayfa, 8)
-  const sonEklenenler = yeniSayfalar(8)
+  const [ilgili, sonEklenenler] = await Promise.all([
+    getIlgiliSayfalar(sayfa, 8),
+    getYeniSayfalar(8),
+  ])
+
   const kategoriAd = kategoriler.find(k => k.slug === sayfa.kategori)
 
   const zorlukRenk = {
@@ -54,7 +63,6 @@ export default function BoyamaSayfasi({ params }: Props) {
         {sayfa.baslik} Boyama Sayfası
       </h1>
 
-      {/* Açıklama */}
       <div className="flex items-center gap-2 mb-3 flex-wrap">
         <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${zorlukRenk[sayfa.zorluk]}`}>
           {sayfa.zorluk === 'kolay' ? '😊 Kolay' : sayfa.zorluk === 'orta' ? '🤔 Orta' : '🧠 Zor'}
@@ -70,10 +78,8 @@ export default function BoyamaSayfasi({ params }: Props) {
 
       <p className="text-gray-600 mb-6 leading-relaxed">{sayfa.aciklama}</p>
 
-      {/* Boyama Motoru */}
       <ColoringEngine svgDosya={sayfa.svgDosya} baslik={sayfa.baslik} />
 
-      {/* İlgili Sayfalar */}
       {ilgili.length > 0 && (
         <section className="mt-10">
           <h2 className="section-title">🎨 Benzer Boyama Sayfaları</h2>
@@ -83,7 +89,6 @@ export default function BoyamaSayfasi({ params }: Props) {
         </section>
       )}
 
-      {/* Son Eklenenler */}
       <section className="mt-10">
         <div className="flex items-center justify-between mb-4">
           <h2 className="section-title">🆕 Son Eklenenler</h2>

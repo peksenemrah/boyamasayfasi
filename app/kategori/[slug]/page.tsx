@@ -3,7 +3,7 @@ import Link from 'next/link'
 import type { Metadata } from 'next'
 import ColoringCard from '@/components/ColoringCard'
 import { kategoriler } from '@/data/categories'
-import { kategoriSayfalari } from '@/data/coloringPages'
+import { getKategoriSayfalari } from '@/lib/data'
 
 interface Props { params: { slug: string } }
 
@@ -20,11 +20,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default function KategoriSayfasi({ params }: Props) {
+export default async function KategoriSayfasi({ params }: Props) {
   const kat = kategoriler.find(k => k.slug === params.slug)
   if (!kat) notFound()
 
-  const sayfalar = kategoriSayfalari(kat.slug)
+  const sayfalar = await getKategoriSayfalari(kat.slug)
 
   return (
     <div>

@@ -28,9 +28,10 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
   const renklerRef = useRef<RenkMap>({})
   useEffect(() => { renklerRef.current = renkler }, [renkler])
 
-  // SVG dosyasını yükle
+  // SVG dosyasını yükle — Sanity CDN URL veya yerel dosya
   useEffect(() => {
-    fetch(`/coloring/${svgDosya}`)
+    const url = svgDosya.startsWith('http') ? svgDosya : `/coloring/${svgDosya}`
+    fetch(url)
       .then(r => r.text())
       .then(text => setSvgIcerik(text))
       .catch(() => setSvgIcerik(''))

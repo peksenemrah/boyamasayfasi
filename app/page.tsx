@@ -1,12 +1,15 @@
 import Link from 'next/link'
 import ColoringCard from '@/components/ColoringCard'
-import { boyamaSayfalari, enPopulerSayfalar, yeniSayfalar } from '@/data/coloringPages'
 import { sayiyaGoreBoyaSayfalari } from '@/data/colorByNumbers'
+import { getSayfalar, getEnPopuler, getYeniSayfalar } from '@/lib/data'
 
-export default function AnaSayfa() {
-  const populer = enPopulerSayfalar(8)
-  const yeni = yeniSayfalar(8)
-  const rastgele = [...boyamaSayfalari].sort(() => Math.random() - 0.5).slice(0, 8)
+export default async function AnaSayfa() {
+  const [populer, yeni, tumSayfalar] = await Promise.all([
+    getEnPopuler(8),
+    getYeniSayfalar(8),
+    getSayfalar(),
+  ])
+  const rastgele = [...tumSayfalar].sort(() => Math.random() - 0.5).slice(0, 8)
 
   return (
     <div className="space-y-10">
