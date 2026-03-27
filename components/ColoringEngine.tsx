@@ -24,13 +24,9 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
   const [svgIcerik, setSvgIcerik] = useState<string>('')
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Ref'ler ile stale closure sorununu çöz
+  // renkler için ref — onClick callback'inde stale closure'ı önler
   const renklerRef = useRef<RenkMap>({})
-  const seciliRenkRef = useRef(PALET[0])
-
-  // State değiştiğinde ref'leri güncelle
   useEffect(() => { renklerRef.current = renkler }, [renkler])
-  useEffect(() => { seciliRenkRef.current = seciliRenk }, [seciliRenk])
 
   // SVG dosyasını yükle
   useEffect(() => {
@@ -40,33 +36,23 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
       .catch(() => setSvgIcerik(''))
   }, [svgDosya])
 
-  // Tıklama olayı — sadece svgIcerik değişince yeniden kaydedilir
-  useEffect(() => {
-    if (!containerRef.current || !svgIcerik) return
-    const container = containerRef.current
+  // SVG alanına tıklama — onClick JSX ile, seciliRenk doğrudan closure'dan okunur
+  const handleContainerClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const target = (e.target as Element).closest('[data-region]') as SVGElement | null
+    if (!target) return
+    const region = target.getAttribute('data-region')
+    if (!region) return
 
-    const handleClick = (e: MouseEvent) => {
-      // closest ile iç içe SVG elementlerinde de çalışır
-      const target = (e.target as SVGElement).closest('[data-region]') as SVGElement | null
-      if (!target) return
-      const region = target.getAttribute('data-region')
-      if (!region) return
+    // Anlık DOM güncellemesi
+    target.style.fill = seciliRenk
 
-      const mevcutRenkler = renklerRef.current
-      const renk = seciliRenkRef.current
-      const yeniRenkler = { ...mevcutRenkler, [region]: renk }
-
-      setGecmis(prev => [...prev.slice(-19), mevcutRenkler])
-      setRenkler(yeniRenkler)
-      renklerRef.current = yeniRenkler
-
-      // Doğrudan DOM'u güncelle — useEffect beklemeden anlık görünür
-      target.style.fill = renk
-    }
-
-    container.addEventListener('click', handleClick)
-    return () => container.removeEventListener('click', handleClick)
-  }, [svgIcerik])
+    // State güncelle
+    const mevcutRenkler = renklerRef.current
+    const yeniRenkler = { ...mevcutRenkler, [region]: seciliRenk }
+    setGecmis(prev => [...prev.slice(-19), mevcutRenkler])
+    setRenkler(yeniRenkler)
+    renklerRef.current = yeniRenkler
+  }, [seciliRenk])
 
   const geriAl = useCallback(() => {
     if (gecmis.length === 0) return
@@ -74,40 +60,31 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
     setGecmis(prev => prev.slice(0, -1))
     setRenkler(onceki)
     renklerRef.current = onceki
-    if (containerRef.current) {
-      const svg = containerRef.current.querySelector('svg')
-      if (!svg) return
-      svg.querySelectorAll('[data-region]').forEach(el => {
-        const id = el.getAttribute('data-region')!
-        ;(el as SVGElement).style.fill = onceki[id] || ''
-      })
-    }
+    const svg = containerRef.current?.querySelector('svg')
+    if (!svg) return
+    svg.querySelectorAll('[data-region]').forEach(el => {
+      const id = el.getAttribute('data-region')!
+      ;(el as SVGElement).style.fill = onceki[id] || ''
+    })
   }, [gecmis])
 
   const sifirla = useCallback(() => {
     if (!confirm('Tüm renkler silinecek. Emin misin?')) return
-    const mevcutRenkler = renklerRef.current
-    setGecmis(prev => [...prev, mevcutRenkler])
+    setGecmis(prev => [...prev, renklerRef.current])
     setRenkler({})
     renklerRef.current = {}
-    if (containerRef.current) {
-      const svg = containerRef.current.querySelector('svg')
-      if (!svg) return
-      svg.querySelectorAll('[data-region]').forEach(el => {
-        (el as SVGElement).style.fill = ''
-      })
-    }
+    const svg = containerRef.current?.querySelector('svg')
+    svg?.querySelectorAll('[data-region]').forEach(el => {
+      (el as SVGElement).style.fill = ''
+    })
   }, [])
 
   const yazdir = useCallback(() => {
     const svg = containerRef.current?.querySelector('svg')
     if (!svg) return
-    // SVG klonla ve width/height kaldır — CSS ile tam sayfa doldursun
     const klon = svg.cloneNode(true) as SVGElement
     klon.removeAttribute('width')
     klon.removeAttribute('height')
-    klon.style.width = '100%'
-    klon.style.height = '100%'
     const win = window.open('', '_blank')
     if (!win) return
     win.document.write(`<!DOCTYPE html><html><head><title>${baslik}</title>
@@ -117,9 +94,7 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
         body { display: flex; justify-content: center; align-items: center; background: white; }
         svg { width: 100vmin; height: 100vmin; }
         @page { margin: 10mm; }
-        @media print {
-          svg { width: 100%; height: 100%; }
-        }
+        @media print { svg { width: 100%; height: 100%; } }
       </style></head>
       <body>${klon.outerHTML}</body></html>`)
     win.document.close()
@@ -135,21 +110,18 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
           onClick={geriAl}
           disabled={gecmis.length === 0}
           className="flex items-center gap-1 bg-gray-100 hover:bg-gray-200 disabled:opacity-40 disabled:cursor-not-allowed text-gray-700 font-bold text-sm px-3 py-2 rounded-xl transition-colors"
-          title="Geri Al"
         >
           ↩️ Geri Al
         </button>
         <button
           onClick={sifirla}
           className="flex items-center gap-1 bg-red-100 hover:bg-red-200 text-red-700 font-bold text-sm px-3 py-2 rounded-xl transition-colors"
-          title="Sıfırla"
         >
           🗑️ Sıfırla
         </button>
         <button
           onClick={yazdir}
           className="flex items-center gap-1 bg-blue-100 hover:bg-blue-200 text-blue-700 font-bold text-sm px-3 py-2 rounded-xl transition-colors"
-          title="Yazdır"
         >
           🖨️ Yazdır
         </button>
@@ -169,7 +141,7 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
               <button
                 key={renk}
                 onClick={() => setSeciliRenk(renk)}
-                className={`w-8 h-8 rounded-lg border-3 transition-all hover:scale-110 ${
+                className={`w-8 h-8 rounded-lg border-2 transition-all hover:scale-110 ${
                   seciliRenk === renk
                     ? 'border-gray-800 scale-110 shadow-md'
                     : 'border-gray-200'
@@ -189,9 +161,10 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
           </div>
         </div>
 
-        {/* SVG Boyama Alanı */}
+        {/* SVG Boyama Alanı — onClick direkt JSX'te */}
         <div
           ref={containerRef}
+          onClick={handleContainerClick}
           className="flex-1 bg-white border-2 border-dashed border-gray-200 rounded-xl overflow-hidden cursor-crosshair coloring-svg min-h-80"
           dangerouslySetInnerHTML={{ __html: svgIcerik }}
           style={{ maxWidth: '500px', margin: '0 auto' }}
