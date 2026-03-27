@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Anthropic from '@anthropic-ai/sdk'
+import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
 
 export async function POST(req: NextRequest) {
   const { baslik, kategori, zorluk } = await req.json()
@@ -33,17 +33,13 @@ KESINLIKLE uyulacak kurallar:
 
 Sadece SVG kodunu yaz:`
 
-  const message = await anthropic.messages.create({
-    model: 'claude-opus-4-6',
-    max_tokens: 4096,
-    messages: [{ role: 'user', content: prompt }],
-  })
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+  const result = await model.generateContent(prompt)
+  const text = result.response.text().trim()
 
-  const svg = (message.content[0] as { text: string }).text.trim()
-
-  // Sadece SVG içeriğini çıkar
-  const svgMatch = svg.match(/<svg[\s\S]*<\/svg>/i)
-  const svgContent = svgMatch ? svgMatch[0] : svg
+  // Sadece SVG içeriğini çıkar (markdown code block varsa temizle)
+  const svgMatch = text.match(/<svg[\s\S]*<\/svg>/i)
+  const svgContent = svgMatch ? svgMatch[0] : text
 
   return NextResponse.json({ svg: svgContent })
 }
