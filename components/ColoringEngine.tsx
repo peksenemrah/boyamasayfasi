@@ -46,7 +46,9 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
     const container = containerRef.current
 
     const handleClick = (e: MouseEvent) => {
-      const target = e.target as SVGElement
+      // closest ile iç içe SVG elementlerinde de çalışır
+      const target = (e.target as SVGElement).closest('[data-region]') as SVGElement | null
+      if (!target) return
       const region = target.getAttribute('data-region')
       if (!region) return
 
@@ -59,8 +61,7 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
       renklerRef.current = yeniRenkler
 
       // Doğrudan DOM'u güncelle — useEffect beklemeden anlık görünür
-      const el = container.querySelector(`[data-region="${region}"]`) as SVGElement | null
-      if (el) el.setAttribute('fill', renk)
+      target.style.fill = renk
     }
 
     container.addEventListener('click', handleClick)
@@ -78,7 +79,7 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
       if (!svg) return
       svg.querySelectorAll('[data-region]').forEach(el => {
         const id = el.getAttribute('data-region')!
-        ;(el as SVGElement).setAttribute('fill', onceki[id] || 'white')
+        ;(el as SVGElement).style.fill = onceki[id] || ''
       })
     }
   }, [gecmis])
@@ -93,7 +94,7 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
       const svg = containerRef.current.querySelector('svg')
       if (!svg) return
       svg.querySelectorAll('[data-region]').forEach(el => {
-        (el as SVGElement).setAttribute('fill', 'white')
+        (el as SVGElement).style.fill = ''
       })
     }
   }, [])
@@ -101,15 +102,26 @@ export default function ColoringEngine({ svgDosya, baslik }: Props) {
   const yazdir = useCallback(() => {
     const svg = containerRef.current?.querySelector('svg')
     if (!svg) return
-    const win = window.open('', '_blank', 'width=700,height=700')
+    // SVG klonla ve width/height kaldır — CSS ile tam sayfa doldursun
+    const klon = svg.cloneNode(true) as SVGElement
+    klon.removeAttribute('width')
+    klon.removeAttribute('height')
+    klon.style.width = '100%'
+    klon.style.height = '100%'
+    const win = window.open('', '_blank')
     if (!win) return
     win.document.write(`<!DOCTYPE html><html><head><title>${baslik}</title>
       <style>
-        body { margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; background: white; }
-        svg { max-width: 100%; max-height: 100vh; }
-        @media print { body { margin: 0; } }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; height: 100%; }
+        body { display: flex; justify-content: center; align-items: center; background: white; }
+        svg { width: 100vmin; height: 100vmin; }
+        @page { margin: 10mm; }
+        @media print {
+          svg { width: 100%; height: 100%; }
+        }
       </style></head>
-      <body>${svg.outerHTML}</body></html>`)
+      <body>${klon.outerHTML}</body></html>`)
     win.document.close()
     win.focus()
     setTimeout(() => { win.print(); win.close() }, 400)
