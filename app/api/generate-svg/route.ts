@@ -1,18 +1,22 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!)
-
 export async function POST(req: NextRequest) {
-  const { baslik, kategori, zorluk } = await req.json()
+  try {
+    const { baslik, kategori, zorluk } = await req.json()
 
-  if (!baslik || !kategori) {
-    return NextResponse.json({ error: 'baslik ve kategori zorunlu' }, { status: 400 })
-  }
+    if (!baslik || !kategori) {
+      return NextResponse.json({ error: 'baslik ve kategori zorunlu' }, { status: 400 })
+    }
 
-  const bolgeAdedi = zorluk === 'kolay' ? '6-10' : zorluk === 'orta' ? '10-16' : '16-25'
+    if (!process.env.GEMINI_API_KEY) {
+      return NextResponse.json({ error: 'GEMINI_API_KEY tanımlı değil' }, { status: 500 })
+    }
 
-  const prompt = `Sen bir çocuk boyama sayfası SVG tasarımcısısın.
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
+    const bolgeAdedi = zorluk === 'kolay' ? '6-10' : zorluk === 'orta' ? '10-16' : '16-25'
+
+    const prompt = `Sen bir çocuk boyama sayfası SVG tasarımcısısın.
 
 Aşağıdaki konuda basit ve çocuk dostu bir boyama sayfası SVG'si üret:
 - Konu: ${baslik}
@@ -33,13 +37,18 @@ KESINLIKLE uyulacak kurallar:
 
 Sadece SVG kodunu yaz:`
 
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
-  const result = await model.generateContent(prompt)
-  const text = result.response.text().trim()
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+    const result = await model.generateContent(prompt)
+    const text = result.response.text().trim()
 
-  // Sadece SVG içeriğini çıkar (markdown code block varsa temizle)
-  const svgMatch = text.match(/<svg[\s\S]*<\/svg>/i)
-  const svgContent = svgMatch ? svgMatch[0] : text
+    const svgMatch = text.match(/<svg[\s\S]*<\/svg>/i)
+    const svgContent = svgMatch ? svgMatch[0] : text
 
-  return NextResponse.json({ svg: svgContent })
+    return NextResponse.json({ svg: svgContent })
+
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err)
+    console.error('generate-svg error:', message)
+    return NextResponse.json({ error: message }, { status: 500 })
+  }
 }

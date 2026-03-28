@@ -27,9 +27,9 @@ export default function GeneratePage() {
       })
       const data = await res.json()
       if (data.svg) setSvg(data.svg)
-      else setMesaj('SVG üretilemedi, tekrar dene.')
-    } catch {
-      setMesaj('Hata oluştu.')
+      else setMesaj(`Hata: ${data.error || 'SVG üretilemedi'}`)
+    } catch (e: unknown) {
+      setMesaj(`Hata: ${e instanceof Error ? e.message : String(e)}`)
     } finally {
       setYukleniyor(false)
     }
